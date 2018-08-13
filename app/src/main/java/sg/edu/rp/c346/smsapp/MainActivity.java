@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnSend;
@@ -44,15 +46,27 @@ public class MainActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ArrayList<String> listPhone = new ArrayList<>();
                 String phoneNo = etTo.getText().toString();
                 String msgContent = etContent.getText().toString();
                 SmsManager smsManager = SmsManager.getDefault();
                 if(phoneNo.contains(",")){
                     String[] result = phoneNo.trim().split(",");
                     for(int i = 0; i < result.length; i++){
+                        listPhone.add(result[i]);
                         smsManager.sendTextMessage(result[i],null,msgContent,null,null);
-                        Toast.makeText(getBaseContext(),"Message Sent to " + result[i] + " ",Toast.LENGTH_LONG).show();
                     }
+                    String inString = android.text.TextUtils.join(",",listPhone);
+                    Toast.makeText(getBaseContext(),"Message Sent to " + inString, Toast.LENGTH_LONG).show();
+                }
+                else if(phoneNo.contains(";")){
+                    String[] result = phoneNo.trim().split(";");
+                    for(int i = 0; i < result.length; i++){
+                        listPhone.add(result[i]);
+                        smsManager.sendTextMessage(result[i],null,msgContent,null,null);
+                    }
+                    String inString = android.text.TextUtils.join(",",listPhone);
+                    Toast.makeText(getBaseContext(),"Message Sent to " + inString, Toast.LENGTH_LONG).show();
                 }
                 else{
                     smsManager.sendTextMessage(phoneNo,null,msgContent,null,null);
