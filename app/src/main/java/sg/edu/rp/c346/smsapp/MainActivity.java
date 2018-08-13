@@ -47,9 +47,18 @@ public class MainActivity extends AppCompatActivity {
                 String phoneNo = etTo.getText().toString();
                 String msgContent = etContent.getText().toString();
                 SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(phoneNo,null,msgContent,null,null);
-                Toast.makeText(getBaseContext(),"Message Sent",Toast.LENGTH_LONG).show();
-                etTo.setText("");
+                if(phoneNo.contains(",")){
+                    String[] result = phoneNo.trim().split(",");
+                    for(int i = 0; i < result.length; i++){
+                        smsManager.sendTextMessage(result[i],null,msgContent,null,null);
+                        Toast.makeText(getBaseContext(),"Message Sent to " + result[i] + " ",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    smsManager.sendTextMessage(phoneNo,null,msgContent,null,null);
+                    Toast.makeText(getBaseContext(),"Message Sent",Toast.LENGTH_LONG).show();
+                }
+                etContent.setText("");
             }
         });
 
