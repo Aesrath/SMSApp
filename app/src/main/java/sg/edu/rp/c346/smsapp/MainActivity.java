@@ -2,9 +2,11 @@ package sg.edu.rp.c346.smsapp;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Button btnSend;
+    Button btnSendVia;
     EditText etTo;
     EditText etContent;
     BroadcastReceiver br = new SMSReceiver();
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnSend = findViewById(R.id.buttonSend);
+        btnSendVia = findViewById(R.id.buttonSendVia);
         etTo = findViewById(R.id.editTextTo);
         etContent = findViewById(R.id.editTextContent);
         checkPermission();
@@ -46,6 +50,19 @@ public class MainActivity extends AppCompatActivity {
                 smsManager.sendTextMessage(phoneNo,null,msgContent,null,null);
                 Toast.makeText(getBaseContext(),"Message Sent",Toast.LENGTH_LONG).show();
                 etTo.setText("");
+            }
+        });
+
+        btnSendVia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phoneNo = etTo.getText().toString();
+                String msgContent = etContent.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse("smsto:" + phoneNo));
+                intent.putExtra("sms_body", msgContent);
+                startActivity(intent);
             }
         });
     }

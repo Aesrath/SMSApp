@@ -2,5 +2,6 @@
     <string name="app_name">SMS App</string>
     <string name="to">To: </string>
     <string name="ctn">Content: </string>
-    <string name="bt">Send</string>
+    <string name="btSend">Send</string>
+    <string name="btVia">Send Via Messages</string>
 </resources>

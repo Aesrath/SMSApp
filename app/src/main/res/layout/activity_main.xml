@@ -52,5 +52,11 @@
         android:id="@+id/buttonSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bt" />
+        android:text="@string/btSend" />
+
+    <Button
+        android:id="@+id/buttonSendVia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btVia" />
 </LinearLayout>
